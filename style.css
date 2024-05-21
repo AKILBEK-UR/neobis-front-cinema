@@ -1,0 +1,134 @@
+*{
+    box-sizing:border-box;
+    margin:0px;
+    padding:0px;
+}
+html{
+    font-size: 10px;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    background-color: #1a191f;
+}
+.logo{
+    font-weight: 400;
+    font-size: 4rem;
+    text-decoration: none;
+    color: white;
+    transition: 0.5s;
+}
+header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 10rem;
+    padding: 3rem;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.header__search{
+    border-width: 0rem;
+    height: 4rem;
+    width: 20rem;
+    border-radius: 0.5rem;
+    padding-left: 0.6rem;
+}
+.header__search:focus{
+    outline: none;
+}
+
+.header__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    height: 3, 75rem;
+    width: 60rem;
+}
+  
+.header__nav a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.7rem;
+    transition: 0.5s;
+}
+  
+.header__nav li {
+    list-style-type: none;
+}
+a:hover{
+    color: rgb(141, 141, 141);
+}
+.main_class{
+    max-width: 120rem;
+    margin: 0 auto;
+}
+.movies{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.movie{
+    width: 24rem;
+    margin: 1rem;
+    position: relative;
+}
+.movie__cover-inner{
+    position: relative;
+    height: 36rem;
+}
+.movie__cover{
+    max-width: 100%;
+    height: 100%;
+}
+.movie__cover--darkened{
+    background-color: black;
+    opacity: 0.1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.movie__cover--darkened:hover{
+    background-color: grey;
+    cursor: pointer;
+}
+.movie__info{
+    padding: 1rem 0rem;
+}
+.movie__title{
+    font-size: 1.6rem;
+    color: #ffffff;
+}
+.movie__category{
+    font-size: 1.4rem;
+    color: #efe257;
+}
+.movie__average{
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 0;
+    border-radius: 50%;
+    width: 3.6rem;
+    height: 3.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1a191f;
+    color: #ffffff;
+    font-size: 1.4rem;
+}
+.movie__average--green{
+    border: 0.2rem solid green;
+}
+.movie__average--orange{
+    border: 0.2rem solid orange;
+}
+.movie__average--red{
+    border: 0.2rem solid red;
+}
