@@ -189,6 +189,7 @@ a:hover{
     .movies {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        height: 45rem;
         align-items: center;
         padding: 2rem;
     }
@@ -210,8 +211,7 @@ a:hover{
     .movie__info{
         display: grid;
         grid-template-columns: 1fr 15%;
-        grid-template-rows:1fr 1fr;
-        height: min-content;
+        grid-template-rows:auto auto;
     }
     .movie__title {
         font-size: 1.4rem;
