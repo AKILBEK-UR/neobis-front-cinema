@@ -100,13 +100,19 @@ a:hover{
 }
 .movie__info{
     padding: 1rem 0rem;
+    display: grid;
+    grid-template-columns: 1fr 15%;
+    grid-template-rows: 4.48rem 4.48rem;
 }
 .movie__title{
     width: 20rem;
+    height: 4.48rem;
     font-size: 1.6rem;
     color: #ffffff;
+    grid-area: 1 / 1 / 2 / 2 ;
 }
 .movie__category{
+    grid-area: 2 / 1 / 3 / 2;
     font-size: 1.4rem;
     color: #efe257;
 }
@@ -136,20 +142,98 @@ a:hover{
 }
 
 .favorite__heart-white, .favorite__heart-red {
+    grid-area: 1 / 2 / 3 / 3 ;
     width: 2.5rem;
     height: 2.5rem;
     cursor: pointer;
     background-color: #413f4e;
     border-width: 0rem;
-    position: absolute;
-    top: 37rem;
-    left: 21rem;
     border-radius: 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    align-self: flex-start;
+    left: 3rem;
 }
 .favorite__heart-white:hover, .favorite__heart-red:hover{
     background-color: #787590;
 }
 
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        height: auto;
+        padding: 2rem;
+    }
+
+    .header__search {
+        width:35rem;
+        margin-top: 1rem;
+    }
+
+    .header__nav {
+        flex-direction: row;
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .header__nav a {
+        font-size: 1.4rem;
+    }
+
+    .main_class {
+        padding-top: 1rem;
+    }
+
+    .movies {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    .movie__cover-inner{
+        justify-content: center;
+        align-items: center;
+    }
+
+    .movie__cover-inner img {
+        border-radius: 1rem;
+    }
+
+    .movie{
+        width: 90%;
+        height: 45rem;
+        margin: 0.5rem 0;
+    }
+    .movie__info{
+        display: grid;
+        grid-template-columns: 1fr 15%;
+        grid-template-rows:1fr 1fr;
+        height: min-content;
+    }
+    .movie__title {
+        font-size: 1.4rem;
+        width: 100%;
+        grid-area: 1 / 1 / 2 / 2 ;
+    }
+
+    .movie__category {
+        font-size: 1.2rem;
+        grid-area: 2 / 1 / 3 / 2;
+    }
+
+    .movie__average {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.2rem;
+    }
+
+    .favorite__heart-white,
+    .favorite__heart-red {
+        width: 2.5rem;
+        height: 2.5rem;
+        grid-area: 1 / 2 / 3 / 3 ;
+    }
+}

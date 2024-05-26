@@ -14,7 +14,7 @@ const month = [
     "DECEMBER",
   ];
 
-const API_KEY = "836b95e3-f194-4562-aca3-8e3b18bc43ee";
+const API_KEY = "187e8b82-d101-4fc5-b3b6-7bd07fdf5644";
 const API_URL_PREMIERS = `https://kinopoiskapiunofficial.tech/api/v2.2/films/premieres?year=${time.getFullYear()}&month=${month[time.getMonth()]}`;
 const API_URL_SEARCH ="https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=";
 const API_URL_RELEASES = `https://kinopoiskapiunofficial.tech/api/v2.1/films/releases?year=${time.getFullYear()}&month=${month[time.getMonth()]}&page=4`;
@@ -133,12 +133,12 @@ function displayMovies(data) {
           ${movieName}
         </div>
         <div class="movie__category">
-          ${movie.genres.map((genre) => ` ${genre.genre}`).join(', ')}
+          <h3>${movie.genres.map((genre) => ` ${genre.genre}`).join(', ')}</h3>
         </div>
-        ${rating ? `<div class="movie__average movie__average--${getColorByRate(rating)}"> ${rating} </div>` : ''} 
         <button  id="${movie.filmId || movie.kinopoiskId}" class="${isFavorite ? "favorite__heart-red" : "favorite__heart-white"}">
             <img src="./public/images/heart.svg" style="width:2rem;height:2rem;">
         </button>
+        ${rating ? `<div class="movie__average movie__average--${getColorByRate(rating)}"> ${rating} </div>` : ''} 
       </div>`;
        
     moviesEl.appendChild(movieEl);
