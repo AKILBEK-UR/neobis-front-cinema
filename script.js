@@ -13,13 +13,13 @@ const month = [
     "NOVEMBER",
     "DECEMBER",
   ];
-const API_KEY = "82dbc687-876f-4392-90bf-ddfcbd8e67c0";
+
+const API_KEY = "836b95e3-f194-4562-aca3-8e3b18bc43ee";
 const API_URL_PREMIERS = `https://kinopoiskapiunofficial.tech/api/v2.2/films/premieres?year=${time.getFullYear()}&month=${month[time.getMonth()]}`;
 const API_URL_SEARCH ="https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=";
-const API_URL_RELEASES = `https://kinopoiskapiunofficial.tech/api/v2.1/films/releases?year=${time.getFullYear()}&month=${month[time.getMonth()]}`;
+const API_URL_RELEASES = `https://kinopoiskapiunofficial.tech/api/v2.1/films/releases?year=${time.getFullYear()}&month=${month[time.getMonth()]}&page=4`;
 const API_URL_BESTS ="https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_POPULAR_MOVIES&page=1";
-const API_URL_EXPECTED ="https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_AWAIT_FILMS";
-
+const API_URL_EXPECTED ="https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_AWAIT_FILMS&";
 
 
 //button handlings and listeners
@@ -29,7 +29,10 @@ const releases = document.getElementById("releases");
 const premiers = document.getElementById("premiers");
 const top_expected = document.getElementById("top_expected");
 const top_best = document.getElementById("top_best");
+const favoritesPageLink = document.getElementById("favorites");
 
+// Default page is for best films
+getMovies(API_URL_BESTS);
 
 
 form.addEventListener("submit", (e) => {
@@ -60,6 +63,16 @@ top_best.addEventListener("click", () => {
   getMovies(API_URL_BESTS);
 });
 
+favoritesPageLink.addEventListener("click", (event) => {
+  event.preventDefault();
+  const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
+  if (favoriteMovies.length > 0) {
+    displayMovies({ films: favoriteMovies });
+  } else {
+    alert("No favorite movies found");
+  }
+});
+
 //functions to show movies
 async function getMovies(url){      //fetchhing
     try {
@@ -79,6 +92,7 @@ async function getMovies(url){      //fetchhing
         console.error("Failed to fetch movies:", error);
     }
 }
+
 function getColorByRate(vote) {
     if (vote >= 7) {
       return "green";
@@ -88,37 +102,98 @@ function getColorByRate(vote) {
       return "red";
     }
 }
+
 function displayMovies(data) {
-    console.log(typeof data);
     const moviesEl = document.querySelector(".movies");
-    // Очищаем предыдущие фильмы
+    const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
     const movies = data.items || data.films || data.releases;
+
     document.querySelector(".movies").innerHTML = "";
 
     movies.forEach((movie) => {
+    const isFavorite = favoriteMovies.some(
+      (favoriteMovie) => favoriteMovie.kinopoiskId === movie.kinopoiskId || favoriteMovie.kinopoiskId === movie.filmId
+    );
+
     const movieEl = document.createElement("div");
     movieEl.classList.add("movie");
-    const rating = movie.rating || movie.ratingImdb;
+    const rating = Number(movie.rating) || Number(movie.ratingImdb);
+    const movieName = movie.nameRu || movie.nameEn;
     movieEl.innerHTML = `
       <div class="movie__cover-inner">
         <img
           src="${movie.posterUrlPreview}"
           class="movie__cover"
-          alt="${movie.nameRu}"
+          alt="${movieName}"
         />
         <div class="movie__cover--darkened"></div>
       </div>
       <div class="movie__info">
-        <div class="movie__title">${movie.nameRu}</div>
-        <div class="movie__category">${movie.genres.map(
-          (genre) => ` ${genre.genre}`
-        ).join(', ')}</div>
-        ${
-          rating ? 
-          `<div class="movie__average movie__average--${getColorByRate(rating)}">
-            ${rating}
-          </div>` : ''
-        }`;
+        <div class="movie__title">
+          ${movieName}
+        </div>
+        <div class="movie__category">
+          ${movie.genres.map((genre) => ` ${genre.genre}`).join(', ')}
+        </div>
+        ${rating ? `<div class="movie__average movie__average--${getColorByRate(rating)}"> ${rating} </div>` : ''} 
+        <button  id="${movie.filmId || movie.kinopoiskId}" class="${isFavorite ? "favorite__heart-red" : "favorite__heart-white"}">
+            <img src="./public/images/heart.svg" style="width:2rem;height:2rem;">
+        </button>
+      </div>`;
+       
     moviesEl.appendChild(movieEl);
-  });
+
+    const favoriteButton = movieEl.getElementsByClassName("favorite__heart-red")[0] || movieEl.getElementsByClassName("favorite__heart-white")[0];
+    favoriteButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (isFavorite) {
+        removeFavorite(movie.filmId || movie.kinopoiskId);
+      } else {
+        toggleFavorite(movie);
+      }
+      displayMovies(data);
+});
+  }); 
 }
+
+const toggleFavorite = (movie) => {
+  try {
+    const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
+    const movieIndex = favoriteMovies.findIndex(
+      (favoriteMovie) =>
+        favoriteMovie.kinopoiskId === movie.kinopoiskId ||
+        favoriteMovie.filmId === movie.filmId
+    );
+
+    // If the movie is not in the favorites, add it
+    if (movieIndex === -1) {
+      favoriteMovies.push(movie);
+    } else {
+      // If the movie is in the favorites, remove it
+      favoriteMovies.splice(movieIndex, 1);
+    }
+
+    // Save the updated favorite movies array back to localStorage
+    localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
+
+    // Optionally update the displayed movies (assuming showMovies is defined elsewhere)
+    displayMovies({ films: favoriteMovies });
+
+    return favoriteMovies;
+  } catch (error) {
+    alert(`Error adding to favorites: ${error.message}`);
+  }
+};
+
+function removeFavorite(kinopoiskId) {
+  const favoriteMovies =
+    JSON.parse(localStorage.getItem("favoriteMovies")) || [];
+  const updatedFavorites = favoriteMovies.filter(
+    (movie) => movie.kinopoiskId !== kinopoiskId
+  );
+  localStorage.setItem("favoriteMovies", JSON.stringify(updatedFavorites));
+  displayMovies({ items: updatedFavorites });
+
+  return updatedFavorites;
+}
+
