@@ -112,9 +112,13 @@ function displayMovies(data) {
 
     movies.forEach((movie) => {
     const isFavorite = favoriteMovies.some(
-      (favoriteMovie) => favoriteMovie.kinopoiskId === movie.kinopoiskId || favoriteMovie.kinopoiskId === movie.filmId
-    );
 
+      (favoriteMovie) => {
+        const movieId = movie.filmId || movie.kinopoiskId;
+        const favoriteId = favoriteMovie.kinopoiskId || favoriteMovie.filmId;
+        return movieId === favoriteId;
+      }
+    );
     const movieEl = document.createElement("div");
     movieEl.classList.add("movie");
     const rating = Number(movie.rating) || Number(movie.ratingImdb);
@@ -147,6 +151,7 @@ function displayMovies(data) {
     favoriteButton.addEventListener("click", (e) => {
       e.preventDefault();
       if (isFavorite) {
+        console.log(movie)
         removeFavorite(movie.filmId || movie.kinopoiskId);
       } else {
         toggleFavorite(movie);
@@ -157,21 +162,10 @@ function displayMovies(data) {
 }
 
 const toggleFavorite = (movie) => {
+  console.log(movie);
   try {
     const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
-    const movieIndex = favoriteMovies.findIndex(
-      (favoriteMovie) =>
-        favoriteMovie.kinopoiskId === movie.kinopoiskId ||
-        favoriteMovie.filmId === movie.filmId
-    );
-
-    // If the movie is not in the favorites, add it
-    if (movieIndex === -1) {
-      favoriteMovies.push(movie);
-    } else {
-      // If the movie is in the favorites, remove it
-      favoriteMovies.splice(movieIndex, 1);
-    }
+    favoriteMovies.push(movie);
 
     // Save the updated favorite movies array back to localStorage
     localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
@@ -185,13 +179,16 @@ const toggleFavorite = (movie) => {
   }
 };
 
-function removeFavorite(kinopoiskId) {
-  const favoriteMovies =
-    JSON.parse(localStorage.getItem("favoriteMovies")) || [];
+function removeFavorite(id) {
+  const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
   const updatedFavorites = favoriteMovies.filter(
-    (movie) => movie.kinopoiskId !== kinopoiskId
+    (movie) =>{ 
+      const favoriteId = movie.filmId || movie.kinopoiskId;
+      return  favoriteId !== id ;
+    }
   );
   localStorage.setItem("favoriteMovies", JSON.stringify(updatedFavorites));
+  console.log(updatedFavorites);
   displayMovies({ items: updatedFavorites });
 
   return updatedFavorites;
