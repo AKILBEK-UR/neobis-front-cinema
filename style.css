@@ -1,0 +1,239 @@
+*{
+    box-sizing:border-box;
+    margin:0px;
+    padding:0px;
+}
+html{
+    font-size: 10px;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    background-color: #1a191f;
+}
+.logo{
+    font-weight: 400;
+    font-size: 4rem;
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 8rem;
+    padding: 3rem;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.header__search{
+    border-width: 0rem;
+    height: 4rem;
+    width: 20rem;
+    border-radius: 0.5rem;
+    padding-left: 0.6rem;
+}
+.header__search:focus{
+    outline: none;
+}
+
+.header__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    height: 3, 75rem;
+    width: 60rem;
+}
+  
+.header__nav a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.7rem;
+    transition: 0.2s;
+}
+  
+.header__nav li {
+    list-style-type: none;
+}
+a:hover{
+    color: rgb(141, 141, 141);
+}
+.main_class{
+    max-width: 120rem;
+    margin: 0 auto;
+    padding-top: 2rem;
+}
+.movies{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.movie{
+    width: 24rem;
+    margin: 1rem;
+    position: relative;
+}
+.movie__cover-inner{
+    position: relative;
+    height: 36rem;
+}
+.movie__cover{
+    cursor: pointer;
+    max-width: 100%;
+    height: 100%;
+}
+.movie__cover--darkened{
+    background-color: black;
+    opacity: 0.1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.movie__cover--darkened:hover{
+    background-color: grey;
+}
+.movie__info{
+    padding: 1rem 0rem;
+    display: grid;
+    grid-template-columns: 1fr 15%;
+    grid-template-rows: 4.48rem 4.48rem;
+}
+.movie__title{
+    width: 20rem;
+    height: 4.48rem;
+    font-size: 1.6rem;
+    color: #ffffff;
+    grid-area: 1 / 1 / 2 / 2 ;
+}
+.movie__category{
+    grid-area: 2 / 1 / 3 / 2;
+    font-size: 1.4rem;
+    color: #efe257;
+}
+.movie__average{
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 0;
+    border-radius: 50%;
+    width: 3.6rem;
+    height: 3.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1a191f;
+    color: #ffffff;
+    font-size: 1.4rem;
+}
+.movie__average--green{
+    border: 0.2rem solid green;
+}
+.movie__average--orange{
+    border: 0.2rem solid orange;
+}
+.movie__average--red{
+    border: 0.2rem solid red;
+}
+
+.favorite__heart-white, .favorite__heart-red {
+    grid-area: 1 / 2 / 3 / 3 ;
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    background-color: #413f4e;
+    border-width: 0rem;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
+    left: 3rem;
+}
+.favorite__heart-white:hover, .favorite__heart-red:hover{
+    background-color: #787590;
+}
+
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        height: auto;
+        padding: 2rem;
+    }
+
+    .header__search {
+        width:35rem;
+        margin-top: 1rem;
+    }
+
+    .header__nav {
+        flex-direction: row;
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .header__nav a {
+        font-size: 1.4rem;
+    }
+
+    .main_class {
+        padding-top: 1rem;
+    }
+
+    .movies {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: 45rem;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    .movie__cover-inner{
+        justify-content: center;
+        align-items: center;
+    }
+
+    .movie__cover-inner img {
+        border-radius: 1rem;
+    }
+
+    .movie{
+        width: 90%;
+        height: 45rem;
+        margin: 0.5rem 0;
+    }
+    .movie__info{
+        display: grid;
+        grid-template-columns: 1fr 15%;
+        grid-template-rows:auto auto;
+    }
+    .movie__title {
+        font-size: 1.4rem;
+        width: 100%;
+        grid-area: 1 / 1 / 2 / 2 ;
+    }
+
+    .movie__category {
+        font-size: 1.2rem;
+        grid-area: 2 / 1 / 3 / 2;
+    }
+
+    .movie__average {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.2rem;
+    }
+
+    .favorite__heart-white,
+    .favorite__heart-red {
+        width: 2.5rem;
+        height: 2.5rem;
+        grid-area: 1 / 2 / 3 / 3 ;
+    }
+}
